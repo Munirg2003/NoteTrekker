@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+    --sidebar-background: 210 40% 97.5%;
+    --sidebar-foreground: 222.2 47.4% 11.2%;
+    --sidebar-primary: 221.2 83.2% 53.3%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 40% 93%;
+    --sidebar-accent-foreground: 222.2 47.4% 11.2%;
+    --sidebar-border: 214.3 31.8% 86%;
+    --sidebar-ring: 221.2 83.2% 53.3%;
+    --chart-1: 221.2 83.2% 53.3%;
+    --chart-2: 347 77% 50%;
+    --chart-3: 101 70% 40%;
+    --chart-4: 275 80% 50%;
+    --chart-5: 35 90% 50%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+    --sidebar-background: 222.2 47.4% 10%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
+    --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+    --sidebar-accent: 217.2 32.6% 20%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 25%;
+    --sidebar-ring: 224.3 76.3% 48%;
+  }
+  
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+}
+
+/* Markdown Editor and Viewer */
+.markdown-editor {
+  font-family: 'Fira Code', 'Fira Mono', monospace;
+  min-height: 300px;
+}
+
+.markdown-viewer {
+  @apply prose dark:prose-invert prose-sm sm:prose-base max-w-none;
+}
+
+.markdown-viewer h1, .markdown-viewer h2, .markdown-viewer h3 {
+  @apply mt-4 mb-2;
+}
+
+.markdown-viewer ol, .markdown-viewer ul {
+  @apply my-2;
+}
+
+.markdown-viewer table {
+  @apply border-collapse border border-border;
+}
+
+.markdown-viewer th, .markdown-viewer td {
+  @apply border border-border px-3 py-1;
+}
+
+.markdown-viewer code {
+  @apply bg-muted rounded px-1 py-0.5 text-sm;
+}
+
+.markdown-viewer pre {
+  @apply bg-muted p-3 rounded-md overflow-x-auto;
+}
+
+.markdown-viewer pre code {
+  @apply bg-transparent p-0;
+}
+
+.markdown-viewer img {
+  @apply max-w-full h-auto rounded-md;
+}
+
+.markdown-toolbar button {
+  @apply p-1.5 rounded hover:bg-muted transition-colors;
+}
+
+/* Sidebar styling */
+.sidebar-item {
+  @apply rounded-md transition-colors duration-200;
+}
+
+.sidebar-item.active {
+  @apply bg-sidebar-accent text-sidebar-accent-foreground border-l-4 border-sidebar-primary;
+}
+
+/* Note list styling */
+.note-item {
+  @apply border-l-4 border-transparent transition-all duration-200;
+}
+
+.note-item.active {
+  @apply border-primary bg-accent;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-muted rounded-full;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-muted;
+}
