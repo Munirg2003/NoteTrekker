@@ -69,25 +69,31 @@ export class MemStorage implements IStorage {
     this.searchHistoryIdCounter = 1;
     
     // Initialize with some demo data
-    this.initializeDemoData();
+    // Use setTimeout to handle async initialization after constructor
+    setTimeout(() => {
+      this.initializeDemoData().catch(err => {
+        console.error("Failed to initialize demo data:", err);
+      });
+    }, 0);
   }
   
-  private initializeDemoData() {
-    // Create default notebooks
-    const personalNotebook = this.createNotebook({ name: "Personal", icon: "folder" });
-    const workNotebook = this.createNotebook({ name: "Work", icon: "folder" });
-    const projectsNotebook = this.createNotebook({ name: "Projects", icon: "folder" });
-    
-    // Create some tags
-    const pianoTag = this.createTag({ name: "piano" });
-    const storeTag = this.createTag({ name: "store" });
-    const carTag = this.createTag({ name: "car" });
-    const jellyTag = this.createTag({ name: "jelly" });
-    
-    // Create some notes
-    const note1 = this.createNote({
-      title: "Vintage Piano Store Idea",
-      content: `## Check this
+  private async initializeDemoData() {
+    try {
+      // Create default notebooks
+      const personalNotebook = await this.createNotebook({ name: "Personal", icon: "folder" });
+      const workNotebook = await this.createNotebook({ name: "Work", icon: "folder" });
+      const projectsNotebook = await this.createNotebook({ name: "Projects", icon: "folder" });
+      
+      // Create some tags
+      const pianoTag = await this.createTag({ name: "piano" });
+      const storeTag = await this.createTag({ name: "store" });
+      const carTag = await this.createTag({ name: "car" });
+      const jellyTag = await this.createTag({ name: "jelly" });
+      
+      // Create some notes
+      const note1 = await this.createNote({
+        title: "Vintage Piano Store Idea",
+        content: `## Check this
 
 - [ ] Create website
 - [x] Get a logo - done!
@@ -103,41 +109,44 @@ export class MemStorage implements IStorage {
 | Thu 10 June | Interior design meeting | |
 
 ## Poster ideas`,
-      notebookId: personalNotebook.id,
-      isPinned: false
-    });
-    
-    const note2 = this.createNote({
-      title: "Barn conference call",
-      content: "Notes from the conference call with barn suppliers...",
-      notebookId: workNotebook.id,
-      isPinned: false
-    });
-    
-    const note3 = this.createNote({
-      title: "Hire accountant",
-      content: "Need to hire an accountant for the business...",
-      notebookId: personalNotebook.id,
-      isPinned: false
-    });
-    
-    const note4 = this.createNote({
-      title: "Deploy website",
-      content: "Steps to deploy the website to production server...",
-      notebookId: projectsNotebook.id,
-      isPinned: false
-    });
-    
-    // Add tags to notes
-    this.addTagToNote(note1.id, pianoTag.id);
-    this.addTagToNote(note1.id, storeTag.id);
-    this.addTagToNote(note4.id, storeTag.id);
-    this.addTagToNote(note2.id, carTag.id);
-    
-    // Add search history
-    this.addSearchHistory({ query: "meeting notes" });
-    this.addSearchHistory({ query: "piano store" });
-    this.addSearchHistory({ query: "website design" });
+        notebookId: personalNotebook.id,
+        isPinned: false
+      });
+      
+      const note2 = await this.createNote({
+        title: "Barn conference call",
+        content: "Notes from the conference call with barn suppliers...",
+        notebookId: workNotebook.id,
+        isPinned: false
+      });
+      
+      const note3 = await this.createNote({
+        title: "Hire accountant",
+        content: "Need to hire an accountant for the business...",
+        notebookId: personalNotebook.id,
+        isPinned: false
+      });
+      
+      const note4 = await this.createNote({
+        title: "Deploy website",
+        content: "Steps to deploy the website to production server...",
+        notebookId: projectsNotebook.id,
+        isPinned: false
+      });
+      
+      // Add tags to notes
+      await this.addTagToNote(note1.id, pianoTag.id);
+      await this.addTagToNote(note1.id, storeTag.id);
+      await this.addTagToNote(note4.id, storeTag.id);
+      await this.addTagToNote(note2.id, carTag.id);
+      
+      // Add search history
+      await this.addSearchHistory({ query: "meeting notes" });
+      await this.addSearchHistory({ query: "piano store" });
+      await this.addSearchHistory({ query: "website design" });
+    } catch (error) {
+      console.error("Error initializing demo data:", error);
+    }
   }
   
   // Notebooks
@@ -153,8 +162,9 @@ export class MemStorage implements IStorage {
     const id = this.notebookIdCounter++;
     const now = new Date();
     const newNotebook: Notebook = {
-      ...notebook,
       id,
+      name: notebook.name,
+      icon: notebook.icon || null,
       createdAt: now
     };
     this.notebooks.set(id, newNotebook);
@@ -201,8 +211,11 @@ export class MemStorage implements IStorage {
     const id = this.noteIdCounter++;
     const now = new Date();
     const newNote: Note = {
-      ...note,
       id,
+      title: note.title,
+      content: note.content,
+      notebookId: note.notebookId || null,
+      isPinned: note.isPinned || false,
       updatedAt: now,
       createdAt: now
     };
