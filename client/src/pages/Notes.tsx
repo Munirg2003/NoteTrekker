@@ -176,7 +176,7 @@ const Notes = () => {
       setActiveNote(notes[0]);
     } else if (notes.length === 0) {
       setActiveNote(null);
-    } else if (activeNote && !notes.find(note => note.id === activeNote.id)) {
+    } else if (activeNote && !notes.find((note: NoteWithTags) => note.id === activeNote.id)) {
       // If active note is no longer in the list, select the first note
       setActiveNote(notes[0]);
     }
@@ -189,12 +189,12 @@ const Notes = () => {
     }
     
     if (params.tagId) {
-      const tag = tags.find(t => t.id === parseInt(params.tagId));
+      const tag = tags.find((t: Tag) => t.id === parseInt(params.tagId as string));
       return tag ? `Tag: ${tag.name}` : "Tag";
     }
     
     if (params.notebookId) {
-      const notebook = notebooks.find(n => n.id === parseInt(params.notebookId));
+      const notebook = notebooks.find((n: Notebook) => n.id === parseInt(params.notebookId as string));
       return notebook ? notebook.name : "Notebook";
     }
     
